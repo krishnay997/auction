@@ -1,0 +1,11 @@
+{% if current_user.is_authenticated %}
+  {% extends "signed_in.html" %}
+{% endif %}
+{% block content %}
+    
+<form action="{{url_for('users.upload')}}" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <input type="file" name="img"/>
+    <input type="submit" value="Upload"/>
+</form>
+{% endblock %}

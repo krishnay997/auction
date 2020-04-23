@@ -1,0 +1,43 @@
+{% if current_user.is_authenticated %}
+  {% extends "signed_in.html" %}
+{% else %}
+  {% extends "not_signed.html" %}
+{% endif %}
+
+{% block content %}
+
+
+<div class="container mt-3 mb-3">
+  <div class="row justify-content-center">
+    {% for i in items %}
+          <div class="col-md-4">
+            <div class="card text-white bg-dark mb-3" style="width:15rem;" >
+              <img src="{{i.image_path}}" width="250" height="250" class="card-img-top" style="border:1px solid grey" alt="Not found">
+    
+              <div class="card-body">
+                <h5 class="card-title">{{i.title}}</h5>
+                {% if current_user.is_authenticated %}
+                  <form action="{{ url_for('bid.new',product_id=i.id) }}" >
+                    {% if not i.bid_end %}
+                      <button type="submit" class="btn btn-primary">See more</button>
+                    {% else %}
+                      <button type="submit" class="btn btn-danger" disabled>Bid is over</button>
+                    {% endif %}
+                  </form>
+                {% else %}
+                  <form >
+                    <button type="submit" class="btn btn-primary" disabled>Sign in to view</button>
+                  </form>
+                {% endif %}
+
+              </div>
+            </div>
+            <br/>
+          </div>
+          
+    {% endfor %}
+  </div>
+    
+</div>
+
+{% endblock %}

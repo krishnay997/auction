@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+    {% block header %}
+    {% endblock %}
+
+    <title>
+      {% block title %}
+      {% endblock %}
+    </title>
+
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-success">
+      <a class="navbar-brand" href="/">
+        <img src="https://www.kindpng.com/picc/m/112-1123883_transparent-dollar-sign-icon-png-green-dollar-sign.png" width="30" height="30" style="border-radius: 50%;"class="d-inline-block align-top" alt="">
+        Bid Buddy
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        
+        <form class="form-inline ml-auto" method="POST" id="form" >
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <input class="form-control mr-sm-2" type="search" placeholder="Sign in to search" aria-label="Search" name ="search" id="search">
+          <button class="btn btn-outline-light my-2 my-sm-0" type="submit" disabled>Search</button>
+        </form>
+          <div class="navbar-nav">
+            <a class="nav-link" href="/login" >Sign In</a>
+          </div>
+          <div class="navbar-nav">
+            <a class="nav-link" href="/users/new" >Sign Up </span></a>
+          </div>
+       
+      </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+    <!-- includes jQuery -->
+
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+
+<!-- includes the Braintree JS client SDK -->
+    <script src="https://js.braintreegateway.com/web/dropin/1.22.1/js/dropin.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+

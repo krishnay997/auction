@@ -1,0 +1,26 @@
+{% if current_user.is_authenticated %}
+  {% extends "signed_in.html" %}
+{% else %}
+  {% extends "not_signed.html" %}
+{% endif %}
+
+{% block content %}
+
+{% if current_user.is_authenticated %}
+    <form action="{{ url_for('users.update',id=current_user.id) }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <div class="form-group">
+
+        <label> Change Username:</label>
+        <input type='text' name='username' class="form-control" value="{{current_user.username}}">
+
+        <label >Change Password:(re-enter current password if no changes made)</label>
+        <input type='password' name='password' class="form-control" placeholder="password">
+
+        </div>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+    </form>
+{% endif %}
+
+
+{% endblock %}

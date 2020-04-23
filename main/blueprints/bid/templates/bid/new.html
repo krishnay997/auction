@@ -1,0 +1,118 @@
+{% if current_user.is_authenticated %}
+  {% extends "signed_in.html" %}
+{% else %}
+  {% extends "not_signed.html" %}
+{% endif %}
+
+
+{% block content %}
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for category, message in messages %}
+                <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                  <span>{{message}}</span>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div> 
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+
+
+{% if not product %}
+<br/>
+<div class="d-flex justify-content-center">
+    <h1>Item deleted :(</h1>
+</div>
+<div class="d-flex justify-content-center">
+    <img src="https://media1.tenor.com/images/5f3a0a414cd236831abcbc05a74e8814/tenor.gif?itemid=14317292" alt="Sad face" >
+</div>
+ 
+{% else %}
+<div class="container mt-3 mb-3">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                    <img src="{{product.image_path}}"  class="card-img-top" width="450" height="550" style="border:1px solid grey" alt="Not found">
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card text-white bg-dark mb-3">
+                    <h4 class="card-header">{{product.title}}</h4>
+                    <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <p class="card-text">{{product.description}}</p>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<hr style="border-top: 1.5px dashed black">
+
+{% if product.user_id == current_user.id and not product.bid_end%}      
+    <div class="d-flex justify-content-center">
+        <form action="{{ url_for('bid.destroy',product_id=product_id) }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <button type="submit" class="btn btn-danger btn-lg">End Bid!</button>
+        </form>
+    </div>
+{% endif %}
+<div class="d-flex justify-content-center">
+    {% if not product.bid_end %}
+            {% if product.user_id != current_user.id%}      
+                <form class="form-inline" action="{{ url_for('bid.create',product_id=product_id) }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div class="form-group mb-2">
+                        <label><h5>Bid amount:</h5></label>
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <input type='number' name='bid_num' class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2 btn-lg pl-5 pr-5">Bid!</button>
+                </form>
+            {% endif %}
+
+    {% else %}
+        <h1>Bid is Over!</h1>
+    {% endif %}
+    
+</div>
+
+<h3 style="color:white;font-style: italic">Bidding history</h3>
+
+{% for p in product.bid_history %}
+    <table class="table table-dark">
+        <thead>
+        <tr>
+            <th scope="col">Bid Moment</th>
+            <th scope="col">Bidder</th>
+            <th scope="col">Bid Amount ($)</th>
+            
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{p.created_at}}</td>
+            <td>{{p.bidder_username}}</td>
+            <td>{{p.bid_amount}}</td>
+            
+
+        </tr>
+        </tbody>
+    </table>
+{% endfor %}
+
+                
+{% endif %}
+{% endblock %}
+
+
+

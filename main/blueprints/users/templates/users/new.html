@@ -1,0 +1,49 @@
+{% if current_user.is_authenticated %}
+  {% extends "signed_in.html" %}
+{% else %}
+  {% extends "not_signed.html" %}
+{% endif %}
+
+{% block content %}
+    <h1>Sign up</h1>
+    <hr/>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for category, message in messages %}
+                <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                  <span>{{message}}</span>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div> 
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('users.create') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <div class="form-group">
+        <label for="first_name">First Name:</label>
+        <input type='text' name='first_name' class="form-control">
+
+        <label for="last_name">Last Name:</label>
+        <input type='text' name='last_name' class="form-control">
+
+        <label >Email:</label>
+        <input type='email' name='email' class="form-control">
+
+        <label>Username:</label>
+        <input type='text' name='username' class="form-control">
+
+        <label >Password:</label>
+        <input type='password' name='password' class="form-control">
+
+        </div>
+        <button type="submit" class="btn btn-primary">Sign Up!</button>
+    </form>
+
+{% endblock %}
+    
+    

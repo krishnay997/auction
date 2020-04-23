@@ -1,0 +1,42 @@
+{% extends "signed_in.html" %}
+
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <h2>{{current_user.username}} profile page</h2> 
+    </div>
+    <br/>
+    <hr/>
+    <div class="d-flex justify-content-center">
+        <img src="{{current_user.profile_pic}}" width="200" height="200" style="border-radius: 50%;"class="d-inline-block align-top" alt="No Profile Pic">
+    </div>
+    <hr/>
+   <br/>
+    {% if current_user.is_authenticated %}
+    <div class="d-flex justify-content-center">
+        <form action="{{ url_for('users.show_bid') }}" method="GET">
+            <button type="submit" class="btn btn-primary">My bids</button>
+        </form>
+    </div>
+    <br/>
+    <div class="d-flex justify-content-center">
+        <form action="{{ url_for('users.show_product') }}" method="GET">
+            <button type="submit" class="btn btn-primary">My products</button>
+        </form>
+    </div>
+    <br/>
+    <div class="d-flex justify-content-center">
+        <form action="{{ url_for('users.profpic') }}" method="GET">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <button type="submit" class="btn btn-primary">Change profile pic</button>
+        </form>
+    </div>
+    <br/>
+    <div class="d-flex justify-content-center">
+        <form action="{{ url_for('users.edit',id=current_user.id) }}" method="GET">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <button type="submit" class="btn btn-primary">Change username & Password</button>
+        </form>
+    </div>
+    {% endif %}
+{% endblock%}
+

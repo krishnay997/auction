@@ -1,0 +1,68 @@
+{% if current_user.is_authenticated %}
+  {% extends "signed_in.html" %}
+{% else %}
+  {% extends "not_signed.html" %}
+{% endif %}
+
+{% block content%}
+{% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for category, message in messages %}
+                <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                  <span>{{message}}</span>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div> 
+                {% endfor %}
+            </ul>
+        {% endif %}
+{% endwith %}
+<div class="jumbotron" style="background-color:#838b8b">
+  <div class="container">
+    <h1 class="display-4">Welcome to Bid Buddy!</h1>
+    <p class="lead">Here, you can put products up for bidding, bid for products yourself and thats about it!</p>
+  </div>
+</div>
+<br/>
+<div class="container mt-3 mb-3">
+  <div class="row justify-content-center">
+    {% for p in product %}
+          <div class="col-md-4">
+            <div class="card text-white bg-dark mb-3" style="width:15rem;" >
+              <img src="{{p.image_path}}" width="250" height="250" class="card-img-top" style="border:1px solid grey" alt="Not found">
+    
+              <div class="card-body">
+                <h5 class="card-title">{{p.title}}</h5>
+                {% if current_user.is_authenticated %}
+                  <form action="{{ url_for('bid.new',product_id=p.id) }}" >
+                    {% if not p.bid_end %}
+                      <button type="submit" class="btn btn-primary">See more</button>
+                    {% else %}
+                      <button type="submit" class="btn btn-danger" disabled>Bid is over</button>
+                    {% endif %}
+                  </form>
+                {% else %}
+                  <form >
+                    <button type="submit" class="btn btn-primary" disabled>Sign in to view</button>
+                  </form>
+                {% endif %}
+
+              </div>
+            </div>
+            <br/>
+          </div>
+          
+    {% endfor %}
+  </div>
+    
+</div>
+
+
+
+{% endblock %}
+
+
+
+

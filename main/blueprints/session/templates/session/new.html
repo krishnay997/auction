@@ -1,0 +1,37 @@
+{% if current_user.is_authenticated %}
+  {% extends "signed_in.html" %}
+{% else %}
+  {% extends "not_signed.html" %}
+{% endif %}
+{% block content %}
+    <h1>Log in</h1>
+    <hr/>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for category, message in messages %}
+                <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                  <span>{{message}}</span>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div> 
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('session.create') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <div class="form-group">
+
+        <label>Username:</label>
+        <input type='text' name='username' class="form-control">
+
+        <label >Password:</label>
+        <input type='password' name='password' class="form-control">
+
+        </div>
+        <button type="submit" class="btn btn-primary">Log in</button>
+    </form>
+{% endblock %}
