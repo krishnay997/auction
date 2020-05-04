@@ -1,5 +1,5 @@
 from flask import Flask
-from models import db
+from database import db
 import os
 from flask_wtf.csrf import CsrfProtect
 from flask_mail import Mail, Message 

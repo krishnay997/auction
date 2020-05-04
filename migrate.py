@@ -1,5 +1,5 @@
 import peeweedbevolve
-from models import db
+from database import db
 from bid import Bid
 
 if __name__ == '__main__':

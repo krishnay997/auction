@@ -6,8 +6,7 @@ from flask_login import UserMixin,current_user
 from werkzeug.security import generate_password_hash
 import re
 from playhouse.hybrid import hybrid_property
-
-db = PostgresqlExtDatabase("auction")
+from database import db
 
 
 class BaseModel(pw.Model):
