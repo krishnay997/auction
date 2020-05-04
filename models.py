@@ -7,13 +7,7 @@ from werkzeug.security import generate_password_hash
 import re
 from playhouse.hybrid import hybrid_property
 
-db = PostgresqlExtDatabase(
-    database='auction',
-    user='user',
-    password='password',
-    host='localhost',
-    port='5432'
-  )
+db = PostgresqlExtDatabase("auction")
 
 
 class BaseModel(pw.Model):
